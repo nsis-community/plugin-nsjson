@@ -4,7 +4,7 @@
 */
 
 #include <windows.h>
-#include <Wininet.h>
+#include <wininet.h>
 #include "LinkedList.h"
 #include "nsJSON.h"
 #include "JSON.h"
@@ -21,7 +21,7 @@ struct THREAD_PARAM
 
 static void NodeDelete(struct LinkedListNode* pListNode)
 {
-	JSON_Delete(&((struct JSON_NODE*)pListNode->Value), NULL);
+	JSON_Delete((struct JSON_NODE**)&pListNode->Value, NULL);
 	pListNode->Value = NULL;
 }
 
@@ -182,7 +182,7 @@ static void SetLastErrorNode(struct JSON_NODE* pNode, const PTCHAR szWin32Func, 
 
 static void DoHttpWebRequest(struct JSON_NODE* pNode, struct JSON_NODE* pRootNode)
 {
-	static PTCHAR accept[2] = { TEXT("*/*"), NULL };
+	static LPCTSTR accept[2] = { TEXT("*/*"), NULL };
 
 	PTCHAR pszUrl = JSON_GetQuotedValue(JSON_Get(pRootNode, TEXT("Url"), FALSE), NULL);
 	if (pszUrl)
